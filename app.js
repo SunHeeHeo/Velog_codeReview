@@ -34,25 +34,30 @@ const db = mysql.createConnection({
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
+//view는 jade파일로 보여주겠다라고 선언!
 
-app.use(logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
+//미들웨어
+app.use(logger('dev')); //로그를 관리하기 위한 미들웨어(이유? 로그 관리를 쉽게 하기 위해서!;환경에 따른 다른 설정등!)
+app.use(express.json()); //express json를 가져 오기 위한 미들웨어
+app.use(express.urlencoded({ extended: false })); //바디 파트를 쉽게 추출해주는 모듈
+//paring; 가공하는 과정, 그 과정을 수향하는 모듈 혹은 메소드를 parser ; 내가 모르는 언어를 내가 원하는 구조로 바꿔주는 구문 해석기!
+app.use(cookieParser()); //쿠키를 파싱해주는 미들웨어? 암호화된 쿠키를 사용하기 위해선 cookieParser()메소드의 인자로 임의의 문자열을 전달하면 됨
 app.use(express.static(path.join(__dirname, 'public')));
-
+//정적파일을 연결해주는 미들웨어 
 app.use('/', indexRouter);
+//indexRouter와 연결해주는 미들웨어! 경로는 '/'
+
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
-});
+}); //에러핸들러 404는 서버와 클라이언트가 연결이 되지 않았을때(서버 자체는 존재하지만 서버에서 요청한것을 찾을수 없을때!)
 
 // error handler
 app.use(function (err, req, res, next) {
   // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+  res.locals.message = err.message; //res.locals에 있는 에러 메세지는 err.message이다!
+  res.locals.error = req.app.get('env') === 'development' ? err : {}; //**요건 무슨 말일까용? */
 
   // render the error page
   res.status(err.status || 500);
