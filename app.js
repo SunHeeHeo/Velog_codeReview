@@ -62,4 +62,3 @@ app.use(function (err, req, res, next) {
 module.exports = app;
 
 
-  //댓글 작성된 시점에 시간
